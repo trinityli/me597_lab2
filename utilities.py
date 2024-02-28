@@ -97,7 +97,7 @@ def euler_from_quaternion(quat):
     p2 = 1.0 - 2.0 * (y**2 + z**2)
 
     yaw = atan2(p1,p2)
-
+   
     # just unpack yaw
     return yaw
 

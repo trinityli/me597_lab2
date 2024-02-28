@@ -15,7 +15,7 @@ class PID_ctrl:
         self.history_length=history_length
         self.history=[]
         self.history_integration = []
-        self.history_integration_length = ... # integration needs larger history, however if it is too large, it would create larger actuations, try different numbers here
+        self.history_integration_length = 5 # integration needs larger history, however if it is too large, it would create larger actuations, try different numbers here
         self.type=type_
 
         # Controller gains
@@ -23,7 +23,7 @@ class PID_ctrl:
         self.kv=kv    # derivative gain
         self.ki=ki    # integral gain
         
-        self.logger=Logger(filename_)
+        self.logger=Logger(filename_,["error", "error_dot", "error_int", "stamp"])
         # Remeber that you are writing to the file named filename_ or errors.csv the following:
             # error, error_dot, error_int and time stamp
 
@@ -84,16 +84,17 @@ class PID_ctrl:
         for hist in self.history_integration:
             # TODO Part 5: Gather the integration
             # sum_+=...
+            error_int = []
             pass
         
         error_int=sum_*dt_avg
         
         # TODO Part 4: Log your errors
-        self.logger.log_values( ... )
+        self.logger.log_values(latest_error, error_dot, error_int, stamped_error[1])
         
         # TODO Part 4: Implement the control law of P-controller
         if self.type == P:
-            return ... # complete
+            return self.kp * latest_error # complete
         
         # TODO Part 5: Implement the control law corresponding to each type of controller
         elif self.type == PD:

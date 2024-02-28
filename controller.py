@@ -58,8 +58,10 @@ class trajectoryController(controller):
 
         # TODO Part 4: Add saturation limits for the robot linear and angular velocity
 
-        linear_vel = ... if linear_vel > ... else linear_vel
-        angular_vel= ... if angular_vel > ... else angular_vel
+        # limit for turtlebot 3 is 0.22 m/s and 2.84 rad/s or 162.72 deg/s
+        # limit for turtlebot 4 is 0.31 m/s and 1.9 rad/s 
+        linear_vel = 0.2 if linear_vel > 0.22 else linear_vel
+        angular_vel= 2.8 if angular_vel > 2.84 else angular_vel
         
         return linear_vel, angular_vel
 
