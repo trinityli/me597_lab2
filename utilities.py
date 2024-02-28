@@ -1,5 +1,6 @@
 from math import atan2, asin, sqrt
 
+
 M_PI=3.1415926535
 
 class Logger:
@@ -88,7 +89,14 @@ def euler_from_quaternion(quat):
     """
     Convert quaternion (w in last place) to euler roll, pitch, yaw.
     quat = [x, y, z, w]
+    
     """
+    x, y, z, w = quat[0], quat[1], quat[2], quat[3]
+
+    p1 = 2.0 * (w * z + x * y)
+    p2 = 1.0 - 2.0 * (y**2 + z**2)
+
+    yaw = atan2(p1,p2)
 
     # just unpack yaw
     return yaw
@@ -100,6 +108,8 @@ def calculate_linear_error(current_pose, goal_pose):
     # Compute the linear error in x and y
     # Remember that current_pose = [x,y, theta, time stamp] and goal_pose = [x,y,theta]
     # Remember to use the Euclidean distance to calculate the error.
+    
+
     error_linear= ...
 
     return error_linear

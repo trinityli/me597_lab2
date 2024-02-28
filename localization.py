@@ -39,8 +39,7 @@ class localization(Node):
         
         # TODO Part 3: Read x,y, theta, and record the stamp
         self.pose=[pose_msg.pose.pose.position.x, pose_msg.pose.pose.position.y,pose_msg.pose.pose.orientation.z, pose_msg.header.stamp]
-        # print("x is ", self.pose[0])
-        # print("y is ", self.pose[1])
+
         
         # Log the data
         self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(self.pose[3]).nanoseconds])
@@ -57,9 +56,11 @@ if __name__ == "__main__":
 
     rclpy.init()
 
-    localization()
+    test_node = localization()
     
-    rclpy.spin(localization())
+    rclpy.spin(test_node)
 
+    test_node.destroy_node
 
+    rclpy.shutdown()
     
