@@ -31,28 +31,38 @@ class localization(Node):
 
         if localizationType == rawSensor:
             self.odom_subscription = self.create_subscription(odom,'/odom',self.odom_callback,odom_qos)
+            print("Subscription created")
         else:
             print("This type doesn't exist", sys.stderr)
     
-    
     def odom_callback(self, pose_msg:odom):
-        
+        print("Odom callback")
         # TODO Part 3: Read x,y, theta, and record the stamp
-        self.pose=[pose_msg.pose.pose.position.x, pose_msg.pose.pose.position.y,pose_msg.pose.pose.orientation.z, pose_msg.header.stamp]
-
-        
+        #self.pose=[pose_msg.pose.pose.position.x, pose_msg.pose.pose.position.y,pose_msg.pose.pose.orientation.z, pose_msg.header.stamp]
+        #print(self.pose)
         # Log the data
-        self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(self.pose[3]).nanoseconds])
-    
+        #self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(self.pose[3]).nanoseconds])
+      
+        x = pose_msg.pose.pose.position.x
+        y = pose_msg.pose.pose.position.y
+
+        stamp = pose_msg.header.stamp #Time.from_msg(stamp).nanoseconds
+        #  Part 3: Read x,y, theta, and record the stamp
+        self.pose=[x, y, pose_msg.pose.pose.orientation.z, Time.from_msg(stamp).nanoseconds]
+        # Log the data
+        self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(stamp).nanoseconds])
+
     def getPose(self):
+        #print("Localization file: ", self.pose)
         return self.pose
+        
 
 # TODO Part 3
 # Here put a guard that makes the node run, ONLY when run as a main thread!
 # This is to make sure this node functions right before using it in decision.py
 
 # not sure if this is how we're supposed to do it? 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
 
     rclpy.init()
 
@@ -62,5 +72,5 @@ if __name__ == "__main__":
 
     test_node.destroy_node
 
-    rclpy.shutdown()
+    rclpy.shutdown()"""
     

@@ -11,6 +11,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 
 from rclpy.qos import QoSProfile
+from rclpy.qos import QoSProfile, QoSHistoryPolicy, QoSReliabilityPolicy, QoSDurabilityPolicy
 from nav_msgs.msg import Odometry as odom
 
 from localization import localization, rawSensor
@@ -21,6 +22,8 @@ import rclpy
 
 # You may add any other imports you may need/want to use below
 # import ...
+import rclpy 
+import argparse
 
 
 class decision_maker(Node):
@@ -61,10 +64,8 @@ class decision_maker(Node):
 
 
     def timerCallback(self):
-        
+        #print("timerCallback running")
         # TODO Part 3: Run the localization node
-        ...    # Remember that this file is already running the decision_maker node.
-
         rclpy.spin_once(self.localizer)
 
         if self.localizer.getPose()  is  None:
@@ -72,13 +73,23 @@ class decision_maker(Node):
             return
 
         vel_msg=Twist()
+
+        print(self.localizer.getPose())
+        current_pose = self.localizer.getPose()
         
         # TODO Part 3: Check if you reached the goal
+        position_threshold = 0.01
         if type(self.goal) == list:
-            reached_goal=...
+            last_goal_point = self.goal[-1]
+            goal_x, goal_y = last_goal_point[0], last_goal_point[1]
+            reached_goal = (abs(current_pose[0] - goal_x) < position_threshold and abs(current_pose[1] - goal_y) < position_threshold)
         else: 
-            reached_goal=...
-        
+            goal_x, goal_y, goal_theta = self.goal
+            reached_position = (abs(current_pose[0] - goal_x) < position_threshold and
+                                abs(current_pose[1] - goal_y) < position_threshold)
+            orientation_threshold = 0.1  # radians
+            reached_orientation = abs(current_pose[2] - goal_theta) < orientation_threshold
+            reached_goal = reached_position and reached_orientation        
 
         if reached_goal:
             print("reached goal")
@@ -97,30 +108,28 @@ class decision_maker(Node):
         vel_msg.angular.z = yaw_rate
         self.publisher.publish(vel_msg) 
 
-import argparse
-
-
 def main(args=None):
     
     init()
-
     # TODO Part 3: You migh need to change the QoS profile based on whether you're using the real robot or in simulation.
     # Remember to define your QoS profile based on the information available in "ros2 topic info /odom --verbose" as explained in Tutorial 3
     
-    # odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
-    odom_qos=QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
+    odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
+    cmd_vel_qos = QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
                         depth=10,
                         reliability=QoSReliabilityPolicy.RELIABLE,
                         durability=QoSDurabilityPolicy.VOLATILE)
-
+        
     # TODO Part 3: instantiate the decision_maker with the proper parameters for moving the robot
     goal = [0.0, 0.0, 0.0]
     publishing_topic = 'cmd_vel'
+
+    #localizer = localization()
     
     if args.motion.lower() == "point":
-        DM = decision_maker(publisher_msg=Twist(), publishing_topic=publishing_topic, qos_publisher=odom_qos, goalPoint=goal, motion_type=POINT_PLANNER)    
+        DM = decision_maker(publisher_msg=Twist(), publishing_topic=publishing_topic, qos_publisher=cmd_vel_qos, goalPoint=goal, motion_type=POINT_PLANNER)    
     elif args.motion.lower() == "trajectory":
-        DM = decision_maker(publisher_msg=Twist(), publishing_topic=publishing_topic, qos_publisher=odom_qos, goalPoint=goal, motion_type=TRAJECTORY_PLANNER) 
+        DM = decision_maker(publisher_msg=Twist(), publishing_topic=publishing_topic, qos_publisher=cmd_vel_qos, goalPoint=goal, motion_type=TRAJECTORY_PLANNER) 
     else:
         print("invalid motion type", file=sys.stderr)        
     
@@ -135,5 +144,4 @@ if __name__=="__main__":
     argParser=argparse.ArgumentParser(description="point or trajectory") 
     argParser.add_argument("--motion", type=str, default="point")
     args = argParser.parse_args()
-
     main(args)
