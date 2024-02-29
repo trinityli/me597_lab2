@@ -48,7 +48,7 @@ class localization(Node):
 
         stamp = pose_msg.header.stamp #Time.from_msg(stamp).nanoseconds
         #  Part 3: Read x,y, theta, and record the stamp
-        self.pose=[x, y, pose_msg.pose.pose.orientation.z, Time.from_msg(stamp).nanoseconds]
+        self.pose=[x, y, pose_msg.pose.pose.orientation.z, stamp]
         # Log the data
         self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(stamp).nanoseconds])
 

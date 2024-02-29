@@ -80,17 +80,17 @@ class PID_ctrl:
         dt_avg/=len(self.history)
         
         # Compute the error integral
-        sum_=0
+        sum_= 0
         for hist in self.history_integration:
             # TODO Part 5: Gather the integration
-            sum_+= hist
+            sum_+= hist[0]
             error_int = []
             pass
         
         error_int=sum_*dt_avg
         
         # TODO Part 4: Log your errors
-        self.logger.log_values(latest_error, error_dot, error_int, stamped_error[1])
+        self.logger.log_values([latest_error, error_dot, error_int, stamped_error[1]])
         
         # TODO Part 4: Implement the control law of P-controller
         if self.type == P:
