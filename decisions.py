@@ -17,6 +17,7 @@ from localization import localization, rawSensor
 
 from planner import TRAJECTORY_PLANNER, POINT_PLANNER, planner
 from controller import controller, trajectoryController
+import rclpy
 
 # You may add any other imports you may need/want to use below
 # import ...
@@ -64,6 +65,8 @@ class decision_maker(Node):
         # TODO Part 3: Run the localization node
         ...    # Remember that this file is already running the decision_maker node.
 
+        rclpy.spin_once(self.localizer)
+
         if self.localizer.getPose()  is  None:
             print("waiting for odom msgs ....")
             return
@@ -104,7 +107,11 @@ def main(args=None):
     # TODO Part 3: You migh need to change the QoS profile based on whether you're using the real robot or in simulation.
     # Remember to define your QoS profile based on the information available in "ros2 topic info /odom --verbose" as explained in Tutorial 3
     
-    odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
+    # odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
+    odom_qos=QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
+                        depth=10,
+                        reliability=QoSReliabilityPolicy.RELIABLE,
+                        durability=QoSDurabilityPolicy.VOLATILE)
 
     # TODO Part 3: instantiate the decision_maker with the proper parameters for moving the robot
     goal = [0.0, 0.0, 0.0]

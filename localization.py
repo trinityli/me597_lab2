@@ -22,7 +22,7 @@ class localization(Node):
 
         odom_qos=QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
                         depth=10,
-                        reliability=QoSReliabilityPolicy.BEST_EFFORT,
+                        reliability=QoSReliabilityPolicy.RELIABLE,
                         durability=QoSDurabilityPolicy.VOLATILE)
         
         self.loc_logger=Logger("robot_pose.csv", ["x", "y", "theta", "stamp"])
