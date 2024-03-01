@@ -22,7 +22,7 @@ class localization(Node):
 
         odom_qos=QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
                         depth=10,
-                        reliability=QoSReliabilityPolicy.RELIABLE,
+                        reliability=QoSReliabilityPolicy.BEST_EFFORT,
                         durability=QoSDurabilityPolicy.VOLATILE)
         
         self.loc_logger=Logger("robot_pose.csv", ["x", "y", "theta", "stamp"])
@@ -47,8 +47,9 @@ class localization(Node):
         y = pose_msg.pose.pose.position.y
 
         stamp = pose_msg.header.stamp #Time.from_msg(stamp).nanoseconds
-        #  Part 3: Read x,y, theta, and record the stamp
-        self.pose=[x, y, pose_msg.pose.pose.orientation.z, pose_msg.header.stamp]
+        #  Part 3: Read x,y, theta, and record the stamp\
+        
+        self.pose=[x, y, pose_msg.pose.pose.orientation.z, stamp]
         # Log the data
         self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(stamp).nanoseconds])
 
