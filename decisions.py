@@ -117,7 +117,7 @@ def main(args=None):
     odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
     cmd_vel_qos = QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
                         depth=10,
-                        reliability=QoSReliabilityPolicy.RELIABLE,
+                        reliability=QoSReliabilityPolicy.BEST_EFFORT,
                         durability=QoSDurabilityPolicy.VOLATILE)
         
     # TODO Part 3: instantiate the decision_maker with the proper parameters for moving the robot
