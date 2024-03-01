@@ -46,7 +46,7 @@ class decision_maker(Node):
     
     
         elif motion_type==TRAJECTORY_PLANNER:
-            self.controller=trajectoryController(klp=0.2, klv=0.5, kap=0.8, kav=0.6)
+            self.controller=trajectoryController(klp=0.5, klv=0.5, kap=0.8, kav=0.6)
             self.planner=planner(TRAJECTORY_PLANNER)
 
         else:
@@ -78,7 +78,7 @@ class decision_maker(Node):
         current_pose = self.localizer.getPose()
         
         # TODO Part 3: Check if you reached the goal
-        position_threshold = 0.01
+        position_threshold = 0.1
         if type(self.goal) == list:
             last_goal_point = self.goal[-1]
             goal_x, goal_y = last_goal_point[0], last_goal_point[1]

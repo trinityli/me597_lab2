@@ -130,9 +130,9 @@ def calculate_angular_error(current_pose, goal_pose):
 
     # Remember to handle the cases where the angular error might exceed the range [-π, π]
 
-    if error_angular > 180:
-        error_angular -= 360
-    elif error_angular < -180:
-        error_angular += 360
+    if error_angular > M_PI:
+        error_angular -= 2* M_PI
+    elif error_angular < -M_PI:
+        error_angular += 2* M_PI
     
     return error_angular
