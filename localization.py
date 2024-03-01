@@ -36,7 +36,7 @@ class localization(Node):
             print("This type doesn't exist", sys.stderr)
     
     def odom_callback(self, pose_msg:odom):
-        print("Odom callback")
+        #print("Odom callback")
         # TODO Part 3: Read x,y, theta, and record the stamp
         #self.pose=[pose_msg.pose.pose.position.x, pose_msg.pose.pose.position.y,pose_msg.pose.pose.orientation.z, pose_msg.header.stamp]
         #print(self.pose)
@@ -47,7 +47,8 @@ class localization(Node):
         y = pose_msg.pose.pose.position.y
 
         stamp = pose_msg.header.stamp #Time.from_msg(stamp).nanoseconds
-        #  Part 3: Read x,y, theta, and record the stamp
+        #  Part 3: Read x,y, theta, and record the stamp\
+        
         self.pose=[x, y, pose_msg.pose.pose.orientation.z, stamp]
         # Log the data
         self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(stamp).nanoseconds])
