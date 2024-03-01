@@ -41,7 +41,7 @@ class decision_maker(Node):
         # TODO Part 5: Tune your parameters here
     
         if motion_type == POINT_PLANNER:
-            self.controller=controller(klp=0.2, klv=0.5, kap=0.8, kav=0.6)
+            self.controller=controller(klp=0.5, klv=0.5, kap=0.8, kav=0.6)
             self.planner=planner(POINT_PLANNER)    
     
     
@@ -64,7 +64,7 @@ class decision_maker(Node):
 
 
     def timerCallback(self):
-        #print("timerCallback running")
+ 
         # TODO Part 3: Run the localization node
         rclpy.spin_once(self.localizer)
 
@@ -121,7 +121,7 @@ def main(args=None):
                         durability=QoSDurabilityPolicy.VOLATILE)
         
     # TODO Part 3: instantiate the decision_maker with the proper parameters for moving the robot
-    goal = [0.0, 0.0, 0.0]
+    goal = [2.0, 2.0, 0.0]
     publishing_topic = 'cmd_vel'
 
     #localizer = localization()
