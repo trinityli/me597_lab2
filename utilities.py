@@ -115,15 +115,18 @@ def calculate_linear_error(current_pose, goal_pose):
 
 #TODO Part 4: Implement the calculation of the angular error
 def calculate_angular_error(current_pose, goal_pose):
-
+    print("Goal_pose ", goal_pose)
+    print("Current_pose ", )
     # Compute the linear error in x and y
     # Remember that current_pose = [x,y, theta, time stamp] and goal_pose = [x,y,theta]
     # Remember that this function returns the difference in orientation between where the robot currently faces and where it should face to reach the goal
 
-    final_angle = goal_pose[2]
-    initial_angle = current_pose[2]
+    #final_angle = goal_pose  #[x, y]
+    current_angle = current_pose[2]
 
-    error_angular = final_angle - initial_angle
+    position_to_goal = atan2(goal_pose[1]-current_pose[1], goal_pose[0]-current_pose[0])
+
+    error_angular = position_to_goal - current_angle
 
     # Remember to handle the cases where the angular error might exceed the range [-π, π]
 
