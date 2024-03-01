@@ -21,7 +21,7 @@ class controller:
 
     
     def vel_request(self, pose, goal, status):
-        
+        print("point ")
         e_lin=calculate_linear_error(pose, goal)
         e_ang=calculate_angular_error(pose, goal)
 
@@ -49,7 +49,8 @@ class trajectoryController(controller):
         
         finalGoal=listGoals[-1]
         
-        e_lin=calculate_linear_error(pose, finalGoal)
+        print("Pose and goal", pose, finalGoal)
+        e_lin=calculate_linear_error(pose[0], finalGoal)
         e_ang=calculate_angular_error(pose, goal)
 
         
