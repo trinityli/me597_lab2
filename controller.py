@@ -1,5 +1,6 @@
 import numpy as np
 
+from rclpy.time import Time
 
 from pid import PID_ctrl
 from utilities import euler_from_quaternion, calculate_angular_error, calculate_linear_error
@@ -20,10 +21,8 @@ class controller:
 
     
     def vel_request(self, pose, goal, status):
-        
         e_lin=calculate_linear_error(pose, goal)
         e_ang=calculate_angular_error(pose, goal)
-
 
         linear_vel=self.PID_linear.update([e_lin, pose[3]], status)
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status)
@@ -49,6 +48,8 @@ class trajectoryController(controller):
         
         finalGoal=listGoals[-1]
         
+        #print("Pose ", pose)
+        #print("Goal ", finalGoal)
         e_lin=calculate_linear_error(pose, finalGoal)
         e_ang=calculate_angular_error(pose, goal)
 
@@ -73,5 +74,5 @@ class trajectoryController(controller):
         distanceSquared=np.sum((listGoalsArray-poseArray)**2,
                                axis=1)
         closestIndex=np.argmin(distanceSquared)
-
+        print("lookFarFor ", listGoals[ min(closestIndex + 3, len(listGoals) - 1) ])
         return listGoals[ min(closestIndex + 3, len(listGoals) - 1) ]

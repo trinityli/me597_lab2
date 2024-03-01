@@ -102,10 +102,11 @@ class decision_maker(Node):
             rclpy.shutdown() 
         
         velocity, yaw_rate = self.controller.vel_request(self.localizer.getPose(), self.goal, True)
-
+        print("Velocity and yaw", velocity, yaw_rate)
         #TODO Part 4: Publish the velocity to move the robot
         vel_msg.linear.x = float(velocity)
-        vel_msg.angular.z = yaw_rate
+        vel_msg.angular.z = float(yaw_rate)
+
         self.publisher.publish(vel_msg) 
 
 def main(args=None):
