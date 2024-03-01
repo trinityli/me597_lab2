@@ -25,17 +25,18 @@ class planner:
         return x, y, theta
 
     # TODO Part 6: Implement the trajectories here
-    
     def trajectory_planner(self):
-        x_goal, _, _ = 1  # Assuming x_goal defines the range of x values you're interested in
+        x_goal = 1
+
         trajectory = []
         num_points = 10
-        for i in range(num_points + 1):  # Including num_points to get the endpoint
+        for i in range(num_points + 1):  
             x = i * (x_goal / num_points)
             y = x ** 2  # Calculate y based on the new trajectory formula y = x^2
             trajectory.append([x, y])
+        print("Trajectory: ", trajectory)
         return trajectory
-    
+        
 """
     def trajectory_planner_sigmoid(self, goalPoint):
         x_goal, _, _ = goalPoint  
