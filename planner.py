@@ -29,14 +29,14 @@ class planner:
     # TODO Part 6: Implement the trajectories here
     def trajectory_planner(self):
         x_goal = 2
-        x_start = -x_goal  #
+        x_start = 0 #-x_goal  #
         x_end = x_goal  
 
         trajectory = []
-        num_points = 30
+        num_points = 40
         for i in range(num_points + 1):  
-            # x = x_start + i * ((x_end - x_start) / num_points)
-            # y = 1 / (1 + math.exp(-x))  # Sigmoid function
+            #x = x_start + i * ((x_end - x_start) / num_points)
+            #y = 1 / (1 + math.exp(-x))  # Sigmoid function
             x = i * (x_goal / num_points)
             y = x ** 2  # Calculate y based on the new trajectory formula y = x^2
             trajectory.append([x, y])
@@ -57,5 +57,3 @@ class planner:
     #         y = 1 / (1 + math.exp(-x))  # Sigmoid function
     #         trajectory.append([x, y])
     #     return trajectory
-
-

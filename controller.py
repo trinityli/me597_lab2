@@ -19,6 +19,8 @@ class controller:
         self.PID_linear=PID_ctrl(PID, klp, klv, kli, filename_="linear.csv")
         self.PID_angular=PID_ctrl(PID, kap, kav, kai, filename_="angular.csv")
 
+        #self.PID_linear=PID_ctrl(P, klp, filename_="linear.csv")
+        #self.PID_angular=PID_ctrl(P, kap, filename_="angular.csv")
     
     def vel_request(self, pose, goal, status):
         e_lin=calculate_linear_error(pose, goal)
@@ -74,5 +76,5 @@ class trajectoryController(controller):
         distanceSquared=np.sum((listGoalsArray-poseArray)**2,
                                axis=1)
         closestIndex=np.argmin(distanceSquared)
-        print("lookFarFor ", listGoals[ min(closestIndex + 3, len(listGoals) - 1) ])
-        return listGoals[ min(closestIndex + 3, len(listGoals) - 1) ]
+        print("lookFarFor ", listGoals[ min(closestIndex + 1, len(listGoals) - 1) ])
+        return listGoals[ min(closestIndex + 1, len(listGoals) - 1) ]

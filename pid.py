@@ -9,7 +9,7 @@ PID=3 # proportional, integral, derivative
 
 class PID_ctrl:
     
-    def __init__(self, type_, kp=1.7,kv=1.2,ki=0.7, history_length=3, filename_="errors.csv"):
+    def __init__(self, type_, kp=1.3,kv=0.9,ki=0.2, history_length=3, filename_="errors.csv"):
         
         # Data for the controller
         self.history_length=history_length

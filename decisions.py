@@ -41,12 +41,15 @@ class decision_maker(Node):
         # TODO Part 5: Tune your parameters here
     
         if motion_type == POINT_PLANNER:
-            self.controller=controller(klp=0.5, klv=0.5, kap=0.8, kav=0.6)
+            #self.controller=controller(klp=0.05, klv=0.0, kap=0.8, kav=0.0)      
+            self.controller=controller(klp=0.05, klv=0.0, kap=0.8, kav=0.0)      
             self.planner=planner(POINT_PLANNER)    
     
     
         elif motion_type==TRAJECTORY_PLANNER:
-            self.controller=trajectoryController(klp=0.5, klv=0.5, kap=0.8, kav=0.6)
+            #self.controller=trajectoryController(klp=0.1, klv=0.2, kap=0.05, kav=0.2) #Simulation tune
+            #self.controller=trajectoryController(klp=0.5, klv=0.5, kap=0.8, kav=0.6) #Lab PID settings
+            self.controller=trajectoryController(klp=0.5, klv=0, kli=0, kap=0.8, kav=0, kai=0) #P Controller
             self.planner=planner(TRAJECTORY_PLANNER)
 
         else:
@@ -118,11 +121,11 @@ def main(args=None):
     odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
     cmd_vel_qos = QoSProfile(history=QoSHistoryPolicy.KEEP_LAST,
                         depth=10,
-                        reliability=QoSReliabilityPolicy.BEST_EFFORT,
+                        #reliability=QoSReliabilityPolicy.BEST_EFFORT,
                         durability=QoSDurabilityPolicy.VOLATILE)
         
     # TODO Part 3: instantiate the decision_maker with the proper parameters for moving the robot
-    goal = [2.0, 2.0, 0.0]
+    goal = [0.0, 0.0, 0.0]
     publishing_topic = 'cmd_vel'
 
     #localizer = localization()
